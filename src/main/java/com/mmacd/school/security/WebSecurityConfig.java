@@ -1,5 +1,7 @@
 package com.mmacd.school.security;
 
+import com.mmacd.school.security.jwt.AuthEntryPointImpl;
+import com.mmacd.school.security.jwt.AuthTokenFilter;
 import com.mmacd.school.security.services.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +24,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    private AuthEntryPointImpl unauthorizedHandler;
+
+    @Bean
+    public AuthTokenFilter authenticationJwtFilter() {
+        return new AuthTokenFilter();
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,10 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 // JWT secured from CSRF
                 .cors().and().csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // JWT is stateless
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
+
+        http
+                .addFilterBefore(authenticationJwtFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }
