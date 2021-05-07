@@ -1,6 +1,7 @@
 package com.mmacd.school.controllers;
 
 import com.mmacd.school.payload.request.LoginRequest;
+import com.mmacd.school.payload.request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -26,5 +27,9 @@ public class AuthController {
         return null;
     }
 
-
+    @PostMapping("/signup")
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+        System.out.println("Signing up new user...");
+        return null;
+    }
 }
