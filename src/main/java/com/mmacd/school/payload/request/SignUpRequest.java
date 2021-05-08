@@ -1,7 +1,5 @@
 package com.mmacd.school.payload.request;
 
-import com.mmacd.school.models.Role;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -22,7 +20,7 @@ public class SignUpRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    private Set<Role> role;
+    private Set<String> role;
 
     public String getUsername() {
         return username;
@@ -48,11 +46,11 @@ public class SignUpRequest {
         this.password = password;
     }
 
-    public Set<Role> getRole() {
+    public Set<String> getRole() {
         return this.role;
     }
 
-    public void setRole(Set<Role> role) {
+    public void setRole(Set<String> role) {
         this.role = role;
     }
 }
