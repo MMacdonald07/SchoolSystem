@@ -28,8 +28,6 @@ public class JwtUtils {
     @Value("${mmacd.app.jwtExpirationDays}")
     private long jwtExpirationDays;
 
-    private final Key jwtSecretKey = Keys.hmacShaKeyFor(jwtSecret.getBytes());
-
     public String generateJwt(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
@@ -38,14 +36,14 @@ public class JwtUtils {
                 .setSubject(userPrincipal.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtExpirationDays)))
-                .signWith(jwtSecretKey)
+                .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .compact();
     }
 
     public String getUsernameFromJwt(String token) {
         return Jwts
                 .parserBuilder()
-                .setSigningKey(jwtSecretKey)
+                .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
@@ -56,7 +54,7 @@ public class JwtUtils {
         try {
             Jwts
                     .parserBuilder()
-                    .setSigningKey(jwtSecretKey)
+                    .setSigningKey(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
                     .build()
                     .parseClaimsJws(authToken);
             return true;
