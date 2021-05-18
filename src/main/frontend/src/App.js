@@ -5,6 +5,14 @@ import "./App.css";
 
 import AuthService from "./services/auth.service";
 
+import Home from "./components/home.component";
+import Login from "./components/login.component";
+import Register from "./components/register.component";
+import Profile from "./components/profile.component";
+import BoardStudent from "./components/board-student.component";
+import BoardTeacher from "./components/board-teacher.component";
+import BoardAdmin from "./components/board-admin.component";
+
 class App extends Component {
     constructor(props) {
         super(props);
@@ -62,13 +70,13 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
-                        {currentUser && (
-                            <li className="nav-item">
-                                <Link to="/student" className="nav-link">
-                                    Student Page
-                                </Link>
-                            </li>
-                        )}
+                        {currentUser && (!showAdminBoard && !showTeacherBoard) && (
+                                <li className="nav-item">
+                                    <Link to="/student" className="nav-link">
+                                        Student Page
+                                    </Link>
+                                </li>
+                            )}
                     </div>
 
                     {currentUser ? (
