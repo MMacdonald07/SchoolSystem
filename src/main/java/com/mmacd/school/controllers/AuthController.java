@@ -70,59 +70,58 @@ public class AuthController {
         ));
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Username already in use"));
-        }
-
-        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(new MessageResponse("Error: Email already in use"));
-        }
-
-        User user = new User(
-                signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                passwordEncoder.encode(signUpRequest.getPassword())
-        );
-
-        Set<String> strRoles = signUpRequest.getRole();
-        Set<Role> roles = new HashSet<>();
-
-        if (strRoles == null) {
-            Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-                    .orElseThrow(() -> new RuntimeException("Error: Role not found"));
-            roles.add(studentRole);
-        } else {
-            strRoles.forEach(role -> {
-                switch (role) {
-                    case "teacher":
-                        Role teacherRole = roleRepository.findByName(ERole.ROLE_TEACHER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
-                        roles.add(teacherRole);
-                        break;
-                    case "admin":
-                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
-                        roles.add(adminRole);
-                        break;
-                    default:
-                        Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
-                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
-                        roles.add(studentRole);
-                }
-            });
-        }
-
-        user.setRoles(roles);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(
-                new MessageResponse("New user successfully added")
-        );
-    }
+//    @PostMapping("/signup")
+//    public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
+//        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse("Error: Username already in use"));
+//        }
+//
+//        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+//            return ResponseEntity
+//                    .badRequest()
+//                    .body(new MessageResponse("Error: Email already in use"));
+//        }
+//
+//        User user = new User(
+//                signUpRequest.getUsername(),
+//                signUpRequest.getEmail(),
+//                passwordEncoder.encode(signUpRequest.getPassword()));
+//
+//        Set<String> strRoles = signUpRequest.getRole();
+//        Set<Role> roles = new HashSet<>();
+//
+//        if (strRoles == null) {
+//            Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+//                    .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+//            roles.add(studentRole);
+//        } else {
+//            strRoles.forEach(role -> {
+//                switch (role) {
+//                    case "teacher":
+//                        Role teacherRole = roleRepository.findByName(ERole.ROLE_TEACHER)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+//                        roles.add(teacherRole);
+//                        break;
+//                    case "admin":
+//                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+//                        roles.add(adminRole);
+//                        break;
+//                    default:
+//                        Role studentRole = roleRepository.findByName(ERole.ROLE_STUDENT)
+//                                .orElseThrow(() -> new RuntimeException("Error: Role not found"));
+//                        roles.add(studentRole);
+//                }
+//            });
+//        }
+//
+//        user.setRoles(roles);
+//        userRepository.save(user);
+//
+//        return ResponseEntity.ok(
+//                new MessageResponse("New user successfully added")
+//        );
+//    }
 }
