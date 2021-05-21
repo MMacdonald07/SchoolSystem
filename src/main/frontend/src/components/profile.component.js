@@ -47,13 +47,6 @@ export default class Profile extends Component {
                         {currentUser.grade && (<p>
                             <strong>Grade:</strong> {currentUser.grade}
                         </p>)}
-                        <strong>Authorities:</strong>
-                        <ul>
-                            {currentUser.roles &&
-                                currentUser.roles.map((role, index) => (
-                                    <li key={index}>{role}</li>
-                                ))}
-                        </ul>
                     </div>
                 ) : null}
             </div>

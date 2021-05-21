@@ -1,10 +1,7 @@
 package com.mmacd.school.controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -16,16 +13,10 @@ public class TestController {
         return "School Server";
     }
 
-    @GetMapping("/student")
-    @PreAuthorize("hasRole('STUDENT')")
-    public String studentAccess() {
-        return "Student Profile";
-    }
-
-    @GetMapping("/teacher")
+    @GetMapping("/teacher/{subject}")
     @PreAuthorize("hasRole('TEACHER')")
-    public String teacherAccess() {
-        return "Teacher Board";
+    public String teacherAccess(@PathVariable("subject") String subject) {
+        return "Teacher Board for " + subject;
     }
 
     @GetMapping("/admin")

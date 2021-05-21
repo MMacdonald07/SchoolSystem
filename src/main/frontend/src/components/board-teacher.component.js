@@ -7,7 +7,8 @@ export default class BoardTeacher extends Component {
         super(props);
 
         this.state = {
-            content: ""
+            content: "",
+            subject: props.match.params.subject
         };
     }
 
@@ -36,6 +37,7 @@ export default class BoardTeacher extends Component {
             <div className="container">
                 <header className="jumbotron">
                     <h3>{this.state.content}</h3>
+                    <p>Students in your {this.state.subject} class</p>
                 </header>
             </div>
         );

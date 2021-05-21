@@ -9,7 +9,6 @@ import Home from "./components/home.component";
 import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Profile from "./components/profile.component";
-import BoardStudent from "./components/board-student.component";
 import BoardTeacher from "./components/board-teacher.component";
 import BoardAdmin from "./components/board-admin.component";
 
@@ -58,7 +57,7 @@ class App extends Component {
                         </li>
                         {showTeacherBoard && (
                             <li className="nav-item">
-                                <Link to="/teacher" className="nav-link">
+                                <Link to={`/teacher/${currentUser.subject}`} className="nav-link">
                                     Teacher Board
                                 </Link>
                             </li>
@@ -70,13 +69,6 @@ class App extends Component {
                                 </Link>
                             </li>
                         )}
-                        {currentUser && (!showAdminBoard && !showTeacherBoard) && (
-                                <li className="nav-item">
-                                    <Link to="/student" className="nav-link">
-                                        Student Page
-                                    </Link>
-                                </li>
-                            )}
                     </div>
 
                     {currentUser ? (
@@ -118,8 +110,7 @@ class App extends Component {
                         <Route exact path="/login" component={Login} />
                         {/* <Route exact path="/register" component={Register} /> */}
                         <Route exact path="/profile" component={Profile} />
-                        <Route path="/student" component={BoardStudent} />
-                        <Route path="/teacher" component={BoardTeacher} />
+                        <Route path="/teacher/:subject" component={BoardTeacher} />
                         <Route path="/admin" component={BoardAdmin} />
                     </Switch>
                 </div>
