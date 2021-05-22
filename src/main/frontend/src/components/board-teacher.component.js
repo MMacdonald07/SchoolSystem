@@ -7,7 +7,7 @@ export default class BoardTeacher extends Component {
         super(props);
 
         this.state = {
-            content: "",
+            content: [],
             subject: props.match.params.subject
         };
     }
@@ -36,9 +36,19 @@ export default class BoardTeacher extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
-                    <p>Students in your {this.state.subject} class</p>
+                    <h3>
+                        {this.state.subject.charAt(0).toUpperCase() +
+                            this.state.subject.slice(1)}{" "}
+                        Students
+                    </h3>
                 </header>
+                <ul>
+                    {this.state.content.map((student, index) => (
+                        <li key={index}>
+                            <strong>{student.username}</strong>: {student.grade}%
+                        </li>
+                    ))}
+                </ul>
             </div>
         );
     }

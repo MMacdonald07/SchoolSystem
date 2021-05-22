@@ -12,7 +12,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    List<User> findBySubject(String subject);
+    List<User> getAllBySubjectAndGradeNotNull(String subject);
+
+    List<User> findAll();
 
     Boolean existsByUsername(String username);
 

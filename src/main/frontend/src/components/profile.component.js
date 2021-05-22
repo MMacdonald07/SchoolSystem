@@ -41,12 +41,18 @@ export default class Profile extends Component {
                         <p>
                             <strong>Email:</strong> {currentUser.email}
                         </p>
-                        {currentUser.subject && (<p>
-                            <strong>Subject:</strong> {currentUser.subject}
-                        </p>)}
-                        {currentUser.grade && (<p>
-                            <strong>Grade:</strong> {currentUser.grade}
-                        </p>)}
+                        {currentUser.subject && (
+                            <p>
+                                <strong>Subject:</strong>{" "}
+                                {currentUser.subject.charAt(0).toUpperCase() +
+                                    currentUser.subject.slice(1)}
+                            </p>
+                        )}
+                        {currentUser.grade && (
+                            <p>
+                                <strong>Grade:</strong> {currentUser.grade}%
+                            </p>
+                        )}
                     </div>
                 ) : null}
             </div>
