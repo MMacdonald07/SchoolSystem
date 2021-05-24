@@ -29,7 +29,7 @@ public class TestController {
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
-    public String adminAccess() {
-        return "Admin";
+    public List<User> adminAccess() {
+        return userRepository.findAll();
     }
 }
