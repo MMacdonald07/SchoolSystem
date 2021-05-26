@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
 
 import UserService from "../services/user.service";
 
@@ -37,23 +44,36 @@ export default class BoardAdmin extends Component {
                 <header className="jumbotron">
                     <h3>All users:</h3>
                 </header>
-                <ul>
-                    {this.state.content.map((user, index) => (
-                        <li key={index}>
-                            <p>User {user.id}:</p>
-                            <p>{user.username}</p>
-                            <p>{user.email}</p>
-                            {user.roles[0].name === "ROLE_STUDENT" ||
-                            user.roles[0].name === "ROLE_TEACHER" ? (
-                                <p>{user.subject}</p>
-                            ) : null}
-                            {user.roles[0].name === "ROLE_STUDENT" ? (
-                                <p>{user.grade}</p>
-                            ) : null}
-                            <p>{user.roles[0].name}</p>
-                        </li>
-                    ))}
-                </ul>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Id</TableCell>
+                                <TableCell>Username</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Subject</TableCell>
+                                <TableCell>Grade</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.content.map((user, index) => (
+                                <TableRow key={index}>
+                                    <TableCell component="th" scope="row">
+                                        {user.id}
+                                    </TableCell>
+                                    <TableCell>{user.username}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell>
+                                        {user.subject ? user.subject : "N/A"}
+                                    </TableCell>
+                                    <TableCell>
+                                        {user.grade ? user.grade : "N/A"}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         );
     }
