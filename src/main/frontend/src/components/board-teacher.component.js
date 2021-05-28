@@ -1,4 +1,11 @@
 import React, { Component } from "react";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 import UserService from "../services/user.service";
 
@@ -42,13 +49,26 @@ export default class BoardTeacher extends Component {
                         Students
                     </h3>
                 </header>
-                <ul>
-                    {this.state.content.map((student, index) => (
-                        <li key={index}>
-                            <strong>{student.username}</strong>: {student.grade}%
-                        </li>
-                    ))}
-                </ul>
+                <TableContainer component={Paper}>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Username</TableCell>
+                                <TableCell>Email</TableCell>
+                                <TableCell>Grade</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {this.state.content.map((student, index) => (
+                                <TableRow key={index}>
+                                    <TableCell>{student.username}</TableCell>
+                                    <TableCell>{student.email}</TableCell>
+                                    <TableCell>{student.grade}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
             </div>
         );
     }
