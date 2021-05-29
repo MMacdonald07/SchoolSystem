@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { Link } from "react-router-dom";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
 
 import UserService from "../services/user.service";
 
@@ -74,6 +75,14 @@ export default class BoardAdmin extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <button className="btn btn-secondary btn-block">
+                    <Link
+                        to="/admin/adduser"
+                        style={{ textDecoration: "none", color: "#fff" }}
+                    >
+                        Add User
+                    </Link>
+                </button>
             </div>
         );
     }

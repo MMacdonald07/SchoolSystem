@@ -108,10 +108,10 @@ class App extends Component {
                     <Switch>
                         <Route exact path={["/", "/home"]} component={Home} />
                         <Route exact path="/login" component={Login} />
-                        {/* <Route exact path="/register" component={Register} /> */}
                         <Route exact path="/profile" component={Profile} />
                         <Route path="/teacher/:subject" component={BoardTeacher} />
-                        <Route path="/admin" component={BoardAdmin} />
+                        <Route exact path="/admin" component={BoardAdmin} />
+                        <Route exact path="/admin/adduser" component={Register} />
                     </Switch>
                 </div>
             </div>
