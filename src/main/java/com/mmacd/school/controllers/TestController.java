@@ -106,4 +106,22 @@ public class TestController {
                 new MessageResponse("New user successfully added")
         );
     }
+
+    @DeleteMapping(path = "/admin/deleteuser/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long userId) {
+        boolean exists = userRepository.existsById(userId);
+
+        if (!exists) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: User does not exist"));
+        }
+
+        userRepository.deleteById(userId);
+
+        return ResponseEntity.ok(
+                new MessageResponse("User with id " + userId + " successfully deleted")
+        );
+    }
 }
