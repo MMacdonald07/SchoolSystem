@@ -8,11 +8,19 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
+import AuthService from "../services/auth.service";
 import UserService from "../services/user.service";
+import authHeader from "../services/auth-header";
+import axios from "axios";
+
+const API_URL = "http://localhost:8080/api/test/";
+const currentUser = AuthService.getCurrentUser();
 
 export default class BoardAdmin extends Component {
     constructor(props) {
         super(props);
+
+        this.handleDelete = this.handleDelete.bind(this);
 
         this.state = {
             content: []
@@ -39,10 +47,18 @@ export default class BoardAdmin extends Component {
         );
     }
 
+    handleDelete(id) {
+        axios.delete(API_URL + `admin/deleteuser/${id}`, {
+            headers: authHeader()
+        });
+
+        window.location.reload();
+    }
+
     render() {
         return (
             <div className="container">
-                <header className="jumbotron">
+                <header className="jumbotron mb-3">
                     <h3>All users:</h3>
                 </header>
                 <TableContainer component={Paper}>
@@ -54,6 +70,7 @@ export default class BoardAdmin extends Component {
                                 <TableCell>Email</TableCell>
                                 <TableCell>Subject</TableCell>
                                 <TableCell>Grade</TableCell>
+                                <TableCell />
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -70,12 +87,24 @@ export default class BoardAdmin extends Component {
                                     <TableCell>
                                         {user.grade ? user.grade : "N/A"}
                                     </TableCell>
+                                    <TableCell>
+                                        {user.id === currentUser.id ? null : (
+                                            <button
+                                                className="btn btn-primary btn-block"
+                                                onClick={() =>
+                                                    this.handleDelete(user.id)
+                                                }
+                                            >
+                                                Delete
+                                            </button>
+                                        )}
+                                    </TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <button className="btn btn-secondary btn-block">
+                <button className="btn btn-secondary btn-block mt-3">
                     <Link
                         to="/admin/adduser"
                         style={{ textDecoration: "none", color: "#fff" }}
