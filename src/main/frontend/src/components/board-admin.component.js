@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -20,10 +22,14 @@ export default class BoardAdmin extends Component {
     constructor(props) {
         super(props);
 
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
 
         this.state = {
-            content: []
+            content: [],
+            showModal: false,
+            id: null
         };
     }
 
@@ -47,8 +53,22 @@ export default class BoardAdmin extends Component {
         );
     }
 
-    handleDelete(id) {
-        axios.delete(API_URL + `admin/deleteuser/${id}`, {
+    handleOpen(id) {
+        this.setState({
+            showModal: true,
+            id
+        });
+    }
+
+    handleClose() {
+        this.setState({
+            showModal: false,
+            id: null
+        });
+    }
+
+    handleDelete() {
+        axios.delete(API_URL + `admin/deleteuser/${this.state.id}`, {
             headers: authHeader()
         });
 
@@ -92,7 +112,7 @@ export default class BoardAdmin extends Component {
                                             <button
                                                 className="btn btn-primary btn-block"
                                                 onClick={() =>
-                                                    this.handleDelete(user.id)
+                                                    this.handleOpen(user.id)
                                                 }
                                             >
                                                 Delete
@@ -104,6 +124,19 @@ export default class BoardAdmin extends Component {
                         </TableBody>
                     </Table>
                 </TableContainer>
+
+                <Modal show={this.state.showModal} onHide={this.handleClose}>
+                    <Modal.Body>Are you sure?</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleClose}>
+                            No
+                        </Button>
+                        <Button variant="primary" onClick={this.handleDelete}>
+                            Yes
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <button className="btn btn-secondary btn-block mt-3">
                     <Link
                         to="/admin/adduser"
