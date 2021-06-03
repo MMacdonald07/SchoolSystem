@@ -46,6 +46,16 @@ const vpassword = (value) => {
     }
 };
 
+const vgrade = (value) => {
+    if (value < 0 || value > 100) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                Grade must be between 0 and 100.
+            </div>
+        );
+    }
+};
+
 export default class Register extends Component {
     constructor(props) {
         super(props);
@@ -54,11 +64,15 @@ export default class Register extends Component {
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
+        this.onChangeSubject = this.onChangeSubject.bind(this);
+        this.onChangeGrade = this.onChangeGrade.bind(this);
 
         this.state = {
             username: "",
             email: "",
             password: "",
+            subject: "",
+            grade: null,
             success: false,
             message: ""
         };
@@ -82,6 +96,18 @@ export default class Register extends Component {
         });
     }
 
+    onChangeSubject(e) {
+        this.setState({
+            subject: e.target.value
+        });
+    }
+
+    onChangeGrade(e) {
+        this.setState({
+            grade: e.target.value
+        });
+    }
+
     handleRegister(e) {
         e.preventDefault();
 
@@ -96,7 +122,9 @@ export default class Register extends Component {
             AuthService.register(
                 this.state.username,
                 this.state.email,
-                this.state.password
+                this.state.password,
+                this.state.subject,
+                this.state.grade
             ).then(
                 (res) => {
                     this.setState({
@@ -172,6 +200,29 @@ export default class Register extends Component {
                                         value={this.state.password}
                                         onChange={this.onChangePassword}
                                         validation={[required, vpassword]}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="subject">Subject</label>
+                                    <Input
+                                        type="text"
+                                        className="form-control"
+                                        name="subject"
+                                        value={this.state.subject}
+                                        onChange={this.onChangeSubject}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="grade">Grade</label>
+                                    <Input
+                                        type="number"
+                                        className="form-control"
+                                        name="grade"
+                                        value={this.state.grade}
+                                        onChange={this.onChangeGrade}
+                                        validation={[vgrade]}
                                     />
                                 </div>
 

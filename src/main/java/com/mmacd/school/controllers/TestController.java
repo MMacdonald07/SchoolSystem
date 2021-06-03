@@ -68,8 +68,8 @@ public class TestController {
                 addUserRequest.getUsername(),
                 addUserRequest.getEmail(),
                 passwordEncoder.encode(addUserRequest.getPassword()),
-                null,
-                null);
+                addUserRequest.getSubject().equals("") ? null : addUserRequest.getSubject(),
+                addUserRequest.getGrade());
 
         Set<String> strRoles = addUserRequest.getRole();
         Set<Role> roles = new HashSet<>();

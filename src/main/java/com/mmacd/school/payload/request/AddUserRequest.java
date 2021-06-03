@@ -20,6 +20,10 @@ public class AddUserRequest {
     @Size(min = 6, max = 40)
     private String password;
 
+    private String subject;
+
+    private Integer grade;
+
     private Set<String> role;
 
     public String getUsername() {
@@ -44,6 +48,22 @@ public class AddUserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
     }
 
     public Set<String> getRole() {
