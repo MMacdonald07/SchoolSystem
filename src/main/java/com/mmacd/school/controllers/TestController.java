@@ -4,6 +4,7 @@ import com.mmacd.school.models.ERole;
 import com.mmacd.school.models.Role;
 import com.mmacd.school.models.User;
 import com.mmacd.school.payload.request.AddUserRequest;
+import com.mmacd.school.payload.request.UpdateUserRequest;
 import com.mmacd.school.payload.response.MessageResponse;
 import com.mmacd.school.repository.RoleRepository;
 import com.mmacd.school.repository.UserRepository;
@@ -11,11 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -122,6 +125,64 @@ public class TestController {
 
         return ResponseEntity.ok(
                 new MessageResponse("User with id " + userId + " successfully deleted")
+        );
+    }
+
+    @PostMapping("/admin/updateuser/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public ResponseEntity<?> updateUser(@PathVariable("userId") Long userId,
+                                        @Valid @RequestBody UpdateUserRequest updateUserRequest) {
+        if (!userRepository.existsById(userId)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: User does not exist"));
+        }
+
+        String newUsername = updateUserRequest.getUsername();
+        String newEmail = updateUserRequest.getEmail();
+        String newPassword = updateUserRequest.getPassword();
+        String newSubject = updateUserRequest.getSubject();
+        Integer newGrade = updateUserRequest.getGrade();
+
+        if (userRepository.existsByUsername(newUsername)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username already in use"));
+        }
+
+        if (userRepository.existsByEmail(newEmail)) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email already in use"));
+        }
+
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalStateException(
+                "Student with id " + userId + " does not exist"
+        ));
+
+        if (newUsername != null && newUsername.length() > 0 && !Objects.equals(user.getUsername(), newUsername)) {
+            user.setUsername(newUsername);
+        }
+
+        if (newEmail != null && newEmail.length() > 0 && !Objects.equals(user.getEmail(), newEmail)) {
+            user.setEmail(newEmail);
+        }
+
+        if (newPassword != null && newPassword.length() > 0 && !passwordEncoder.matches(newPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+        }
+
+        if (newSubject != null && newSubject.length() > 0 && !Objects.equals(user.getSubject(), newSubject)) {
+            user.setSubject(newSubject);
+        }
+
+        if (newGrade != null && newGrade >= 0 && newGrade <= 100 && !Objects.equals(user.getPassword(), newPassword)) {
+            user.setGrade(newGrade);
+        }
+
+        return ResponseEntity.ok(
+                new MessageResponse("User successfully updated")
         );
     }
 }
