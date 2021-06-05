@@ -128,7 +128,7 @@ public class TestController {
         );
     }
 
-    @PostMapping("/admin/updateuser/{userId}")
+    @PutMapping("/admin/updateuser/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public ResponseEntity<?> updateUser(@PathVariable("userId") Long userId,
