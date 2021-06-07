@@ -39,6 +39,22 @@ class AuthService {
         );
     }
 
+    update(userId, username, email, password, subject, grade) {
+        return axios.put(
+            API_URL + `test/admin/updateuser/${userId}`,
+            {
+                username,
+                email,
+                password,
+                subject,
+                grade
+            },
+            {
+                headers: authHeader()
+            }
+        );
+    }
+
     getCurrentUser() {
         return JSON.parse(localStorage.getItem("user"));
     }

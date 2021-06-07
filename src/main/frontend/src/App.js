@@ -11,6 +11,7 @@ import Register from "./components/register.component";
 import Profile from "./components/profile.component";
 import BoardTeacher from "./components/board-teacher.component";
 import BoardAdmin from "./components/board-admin.component";
+import Update from "./components/update.component";
 
 class App extends Component {
     constructor(props) {
@@ -112,6 +113,7 @@ class App extends Component {
                         <Route path="/teacher/:subject" component={BoardTeacher} />
                         <Route exact path="/admin" component={BoardAdmin} />
                         <Route exact path="/admin/adduser" component={Register} />
+                        <Route path="/admin/updateuser/:userId" component={Update} />
                     </Switch>
                 </div>
             </div>

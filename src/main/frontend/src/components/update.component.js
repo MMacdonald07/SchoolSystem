@@ -56,11 +56,11 @@ const vgrade = (value) => {
     }
 };
 
-export default class Register extends Component {
+export default class Update extends Component {
     constructor(props) {
         super(props);
 
-        this.handleRegister = this.handleRegister.bind(this);
+        this.handleUpdate = this.handleUpdate.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
@@ -108,7 +108,7 @@ export default class Register extends Component {
         });
     }
 
-    handleRegister(e) {
+    handleUpdate(e) {
         e.preventDefault();
 
         this.setState({
@@ -119,7 +119,8 @@ export default class Register extends Component {
         this.form.validateAll();
 
         if (this.checkBtn.context._errors.length === 0) {
-            AuthService.register(
+            AuthService.update(
+                this.props.match.params.userId,
                 this.state.username,
                 this.state.email,
                 this.state.password,
@@ -160,7 +161,7 @@ export default class Register extends Component {
                     />
 
                     <Form
-                        onSubmit={this.handleRegister}
+                        onSubmit={this.handleUpdate}
                         ref={(c) => {
                             this.form = c;
                         }}
@@ -168,6 +169,7 @@ export default class Register extends Component {
                         {!this.state.success && (
                             <div>
                                 <div className="form-group">
+                                    <p><strong>Leave blank if no changes made to section</strong></p>
                                     <label htmlFor="username">Username</label>
                                     <Input
                                         type="text"
@@ -228,7 +230,7 @@ export default class Register extends Component {
 
                                 <div className="form-group">
                                     <button className="btn btn-primary btn-block mt-3">
-                                        Sign Up
+                                        Save Changes
                                     </button>
                                 </div>
                             </div>

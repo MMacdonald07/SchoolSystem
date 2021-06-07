@@ -91,6 +91,7 @@ export default class BoardAdmin extends Component {
                                 <TableCell>Subject</TableCell>
                                 <TableCell>Grade</TableCell>
                                 <TableCell />
+                                <TableCell />
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -106,6 +107,19 @@ export default class BoardAdmin extends Component {
                                     </TableCell>
                                     <TableCell>
                                         {user.grade ? user.grade : "N/A"}
+                                    </TableCell>
+                                    <TableCell>
+                                        <button className="btn btn-secondary btn-block">
+                                            <Link
+                                                to={`/admin/updateuser/${user.id}`}
+                                                style={{
+                                                    textDecoration: "none",
+                                                    color: "#fff"
+                                                }}
+                                            >
+                                                Edit
+                                            </Link>
+                                        </button>
                                     </TableCell>
                                     <TableCell>
                                         {user.id === currentUser.id ? null : (
