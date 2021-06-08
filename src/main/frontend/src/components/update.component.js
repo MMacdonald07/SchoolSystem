@@ -1,10 +1,14 @@
 import React, { Component } from "react";
+import axios from "axios";
 import CheckButton from "react-validation/build/button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { isEmail } from "validator";
 
 import AuthService from "../services/auth.service";
+import authHeader from "../services/auth-header";
+
+const API_URL = "http://localhost:8080/api/test/";
 
 const required = (value) => {
     if (!value) {
@@ -70,12 +74,34 @@ export default class Update extends Component {
         this.state = {
             username: "",
             email: "",
-            password: "",
+            password: "*****",
             subject: "",
             grade: null,
             success: false,
             message: ""
         };
+    }
+
+    componentDidMount() {
+        axios.get(API_URL + `admin/getuser/${this.props.match.params.userId}`, {
+            headers: authHeader()
+        }).then(({ data }) => {
+            this.setState({
+                username: data.username,
+                email: data.email,
+                subject: data.subject,
+                grade: data.grade
+            })
+        }, (err) => {
+            this.setState({
+                content:
+                    (err.response &&
+                        err.response.data &&
+                        err.response.data.message) ||
+                    err.message ||
+                    err.toString()
+            });
+        })
     }
 
     onChangeUsername(e) {

@@ -52,6 +52,12 @@ public class TestController {
         return userRepository.findAll();
     }
 
+    @GetMapping("/admin/getuser/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public User getUser(@PathVariable("userId") Long userId) {
+        return userRepository.getById(userId);
+    }
+
     @PostMapping("/admin/adduser")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addUser(@Valid @RequestBody AddUserRequest addUserRequest) {
