@@ -20,15 +20,23 @@ export default class Login extends Component {
         super(props);
 
         this.handleLogin = this.handleLogin.bind(this);
+        this.toggleShow = this.toggleShow.bind(this);
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
 
         this.state = {
             username: "",
             password: "",
+            hidden: true,
             loading: false,
             message: ""
         };
+    }
+
+    toggleShow() {
+        this.setState({
+            hidden: !this.state.hidden
+        });
     }
 
     onChangeUsername(e) {
@@ -111,18 +119,24 @@ export default class Login extends Component {
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
                             <Input
-                                type="text"
+                                type={this.state.hidden ? "password" : "text"}
                                 className="form-control"
                                 name="password"
                                 value={this.state.password}
                                 onChange={this.onChangePassword}
                                 validation={[required]}
                             />
+                            <p
+                                style={{ cursor: "pointer" }}
+                                onClick={this.toggleShow}
+                            >
+                                Show/Hide
+                            </p>
                         </div>
 
                         <div className="form-group">
                             <button
-                                className="btn btn-primary btn-block mt-3"
+                                className="btn btn-primary btn-block mt-2"
                                 disabled={this.state.loading}
                             >
                                 {this.state.loading && (

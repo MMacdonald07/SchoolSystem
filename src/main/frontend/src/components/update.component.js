@@ -74,7 +74,7 @@ export default class Update extends Component {
         this.state = {
             username: "",
             email: "",
-            password: "*****",
+            password: "",
             subject: "",
             grade: null,
             success: false,
