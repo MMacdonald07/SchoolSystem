@@ -1,6 +1,6 @@
 # School_System
 
-School_System uses SpringBoot to build a backend that connects to PostgreSQL, linking any users to a database with users having unique roles e.g. teachers who can view their students' marks and admins who can modify the user database: adding new users, deleting existing ones and additionally updating them.
+School_System uses SpringBoot to build a backend that connects to PostgreSQL, linking all users to a database. These users have unique roles: teachers who can view their students' marks; admins who can modify the user database: adding new users, deleting existing ones and additionally updating them; and students who can view their subject and corresponding grade.
 
 ## Installation
 
@@ -20,9 +20,9 @@ Download [PostgreSQL](https://www.enterprisedb.com/downloads/postgres-postgresql
 
 ## Usage
 
-Start the backend using any Java IDE (Eclipse, intelliJ IDEA, etc.) and selecting the SchoolApplication run configuration.
+Input your PSQL credentials and the database URL in src/main/resources/applications.properties. Also feel free to add any other database configuration here such as dropping database when the program is halted.
 
-Input your PSQL credentials and the database URL in src/main/resources/applications.properties. Also feel free to add any other database configuration here.
+Start the backend using any Java IDE (Eclipse, IntelliJ IDEA, etc.) and selecting the SchoolApplication run configuration.
 
 The frontend can be started up by running the following commands from the main directory:
 
