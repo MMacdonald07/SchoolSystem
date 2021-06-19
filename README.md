@@ -36,6 +36,10 @@ It is advised to create a user of role admin first so credentials are available 
 
 To change a user's role the user_roles database will have to be altered in the SQL shell.
 
+### Testing
+
+The school_data.csv file contains randomly generated sample data that can be used in conjunction with School_System. All encoded passwords correspond to "password" when decoded.
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
